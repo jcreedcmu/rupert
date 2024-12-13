@@ -1,7 +1,6 @@
 import { Point, Point3 } from "./types";
 import { vm, vm2, vm3 } from "./vutil";
-
-type Quaternion = { r: number, i: number, j: number, k: number };
+import { Quaternion } from 'quaternion';
 
 export type SE3 = {
   rotate: Quaternion,
@@ -13,6 +12,6 @@ export function mkSE3(rotate: Quaternion, translate: Point3): SE3 {
 }
 
 export function apply(se3: SE3, x: Point3): Point3 {
-  // XXX wrong
-  return x;
+  // XXX wrong, doesn't include translation
+  return se3.rotate.rotateVector(x);
 }

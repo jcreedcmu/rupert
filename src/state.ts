@@ -1,3 +1,4 @@
+import { Quaternion } from "quaternion";
 import { Effect } from "./effect";
 import { SE3, mkSE3 } from "./lib/se3";
 import { Point3 } from "./lib/types";
@@ -22,11 +23,11 @@ export type LocatedPolyhedron = {
 export function mkState(): AppState {
   const poly1: LocatedPolyhedron = mkLocatedPolyhedron(
     snubCube(),
-    mkSE3({ i: 0, j: 0, k: 0, r: 1 }, [0, 0, 0]),
+    mkSE3(new Quaternion(), [0, 0, 0]),
   );
   const poly2: LocatedPolyhedron = mkLocatedPolyhedron(
     [],
-    mkSE3({ i: 0, j: 0, k: 0, r: 1 }, [0, 0, 0]),
+    mkSE3(new Quaternion(0, 0, 0, 1), [0, 0, 0]),
   );
   return {
     counter: 0, effects: [], debugStr: '',

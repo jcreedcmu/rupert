@@ -21,8 +21,6 @@ function render(ci: CanvasInfo, state: CanvasState): void {
   const { d, size } = ci;
   d.clearRect(0, 0, size.x, size.y);
 
-  d.fillStyle = '#def';
-  d.fillRect(0, 0, size.x, size.y);
 
   function canvas_from_scene(pt_in_scene: Point3): Point {
     return {
