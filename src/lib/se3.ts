@@ -11,3 +11,8 @@ export type SE3 = {
 export function mkSE3(rotate: Quaternion, translate: Point3): SE3 {
   return { rotate, translate };
 }
+
+export function apply(se3: SE3, x: Point3): Point3 {
+  // XXX wrong
+  return x;
+}

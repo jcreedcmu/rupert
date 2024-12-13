@@ -4,6 +4,7 @@ import { Dispatch } from './action';
 import { pathCircle, pathPoly, relpos, rrelpos } from './lib/dutil';
 import { LocatedPolyhedron } from './state';
 import { Point, Point3 } from './lib/types';
+import { apply } from './lib/se3';
 
 export type CanvasProps = {
   dispatch: Dispatch,
@@ -30,13 +31,12 @@ function render(ci: CanvasInfo, state: CanvasState): void {
     };
   }
 
-  const pts_in_canvas = state.poly1.pts_in_poly.map(pt_in_poly => {
-    // XXX should apply scene_from_poly
-    return canvas_from_scene(pt_in_poly);
+  const { pts_in_poly, scene_from_poly, faces } = state.poly1;
+  const pts_in_canvas = pts_in_poly.map(pt_in_poly => {
+    return canvas_from_scene(apply(scene_from_poly, pt_in_poly));
   });
 
-
-  state.poly1.faces.forEach(face => {
+  faces.forEach(face => {
 
     d.beginPath();
 
