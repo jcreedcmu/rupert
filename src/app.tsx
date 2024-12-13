@@ -15,12 +15,7 @@ export function App(props: AppProps): JSX.Element {
   const [state, dispatch] = useEffectfulReducer(mkState(), extractEffects(reduce), doEffect);
   const { counter, poly1, poly2 } = state;
   return <>
-    <span style={{ color: props.color }}>Hello, World!</span><p />
-
-    <button onMouseDown={(e) => { dispatch({ t: 'increment' }) }}>Increment</button><p />
-    <button onMouseDown={(e) => { dispatch({ t: 'side-effect' }) }}>Side Effect</button><p />
     <PolyhedraCanvas dispatch={dispatch} poly1={poly1} poly2={poly2} /><p />
-    {state.debugStr}
   </>;
 }
 
