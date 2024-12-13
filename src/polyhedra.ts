@@ -1,3 +1,5 @@
+// Porting code from https://sourceforge.net/p/tom7misc/svn/HEAD/tree/trunk/ruperts/polyhedra.cc
+
 import { Point3 } from "./lib/types";
 import { Polyhedron } from "./state";
 
