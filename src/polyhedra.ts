@@ -1,7 +1,9 @@
 // Porting code from https://sourceforge.net/p/tom7misc/svn/HEAD/tree/trunk/ruperts/polyhedra.cc
 
+import { SE3 } from "./lib/se3";
 import { Point3 } from "./lib/types";
-import { Polyhedron } from "./state";
+import { LocatedPolyhedron, Polyhedron } from "./state";
+import qh, { isPointInsideHull } from 'quickhull3d';
 
 function cbrt(x: number): number {
   return Math.pow(x, 1 / 3);
@@ -37,4 +39,12 @@ export function snubCube(): Polyhedron {
     vertices.push([signs.x * c, signs.y * b, signs.z * a]);
   });
   return vertices;
+}
+
+export function mkLocatedPolyhedron(pts_in_poly: Polyhedron, scene_from_poly: SE3): LocatedPolyhedron {
+  return {
+    pts_in_poly,
+    scene_from_poly,
+    faces: pts_in_poly.length > 0 ? qh(pts_in_poly) : [],
+  }
 }

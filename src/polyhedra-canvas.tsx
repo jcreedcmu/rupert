@@ -1,7 +1,7 @@
 import *  as React from 'react';
 import { CanvasInfo, useCanvas } from './lib/use-canvas';
 import { Dispatch } from './action';
-import { pathCircle, relpos, rrelpos } from './lib/dutil';
+import { pathCircle, pathPoly, relpos, rrelpos } from './lib/dutil';
 import { LocatedPolyhedron } from './state';
 import { Point, Point3 } from './lib/types';
 
@@ -29,16 +29,33 @@ function render(ci: CanvasInfo, state: CanvasState): void {
       y: size.y / 2 + pt_in_scene[1] * 40
     };
   }
-  state.poly1.pts_in_poly.forEach(pt_in_poly => {
-    // XXX should apply scene_from_poly
-    const pt_in_canvas = canvas_from_scene(pt_in_poly);
 
-    console.log(pt_in_canvas);
+  const pts_in_canvas = state.poly1.pts_in_poly.map(pt_in_poly => {
+    // XXX should apply scene_from_poly
+    return canvas_from_scene(pt_in_poly);
+  });
+
+
+  state.poly1.faces.forEach(face => {
+
+    d.beginPath();
+
+    const face_in_canvas = face.map(i => pts_in_canvas[i]);
+    pathPoly(d, face_in_canvas);
+    d.lineWidth = 1;
+    d.strokeStyle = "gray";
+    d.stroke();
+
+  });
+
+  pts_in_canvas.forEach(pt_in_canvas => {
     d.beginPath();
     pathCircle(d, pt_in_canvas, 3);
     d.fillStyle = "black";
     d.fill();
   });
+
+
 }
 
 function onLoad(ci: CanvasInfo): void {

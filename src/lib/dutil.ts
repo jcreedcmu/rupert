@@ -129,6 +129,14 @@ export function pathCircle(d: CanvasRenderingContext2D, center: Point, radius: n
   );
 }
 
+export function pathPoly(d: CanvasRenderingContext2D, pts: Point[]) {
+  d.beginPath();
+  moveTo(d, pts[0]);
+  for (let i = 1; i < pts.length; i++)
+    lineTo(d, pts[i]);
+  d.closePath();
+}
+
 export function moveTo(d: CanvasRenderingContext2D, p: Point) {
   d.moveTo(p.x, p.y);
 }
