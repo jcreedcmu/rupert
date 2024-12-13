@@ -18,7 +18,8 @@ export function reduce(state: AppState, action: Action): AppState {
     case 'mouseDown': {
       const { x, y } = action.p_in_canvas;
       return produce(state, s => {
-        s.debugStr = `clicked at (${x}, ${y})`;
+        s.isAnimating = !state.isAnimating;
+        //        s.debugStr = `clicked at (${x}, ${y})`;
       });
     }
     case 'rotatePoly1': {

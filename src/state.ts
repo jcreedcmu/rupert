@@ -10,6 +10,7 @@ export type AppState = {
   debugStr: string,
   poly1: LocatedPolyhedron,
   poly2: LocatedPolyhedron,
+  isAnimating: boolean,
 }
 
 export type Polyhedron = Point3[];
@@ -32,6 +33,7 @@ export function mkState(): AppState {
   return {
     counter: 0, effects: [], debugStr: '',
     poly1,
-    poly2
+    poly2,
+    isAnimating: true,
   };
 }
