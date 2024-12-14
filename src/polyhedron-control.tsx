@@ -7,7 +7,7 @@ import { Point, Point3 } from './lib/types';
 import { apply } from './lib/se3';
 
 export type CanvasProps = {
-  which: number,
+  poly_index: number,
   dispatch: Dispatch,
   poly: LocatedPolyhedron,
   mouseState: MouseState,
@@ -64,12 +64,19 @@ function onLoad(ci: CanvasInfo): void {
 }
 
 export function PolyhedronControl(props: CanvasProps): JSX.Element {
-  const { dispatch, which } = props;
+  const { dispatch, poly_index } = props;
   const [cref, mc] = useCanvas(props, render, [props], onLoad);
 
   function mousedown(e: React.MouseEvent): void {
-    dispatch({ t: 'mouseDown', which, p_in_canvas: rrelpos(e), p_in_client: { x: e.clientX, y: e.clientY } });
+    dispatch({ t: 'mouseDown', poly_index, p_in_canvas: rrelpos(e), p_in_client: { x: e.clientX, y: e.clientY } });
   }
 
-  return <canvas onMouseDown={mousedown} style={{ width: 400, height: 400 }} ref={cref} />;
+  const qv = props.poly.scene_from_poly.rotate.toVector();
+  const quaternionText = <>{qv[0]}<br />{qv[1]}<br />{qv[2]}<br />{qv[3]}</>;
+  return <div className="polyhedron-control-container">
+    <canvas onMouseDown={mousedown} style={{ width: 400, height: 400 }} ref={cref} />
+
+    {quaternionText}<p />
+    <button onClick={() => { dispatch({ t: 'reset', poly_index: poly_index }) }}>Reset</button>
+  </div>;
 }

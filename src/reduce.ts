@@ -27,7 +27,7 @@ export function reduce(state: AppState, action: Action): AppState {
       return produce(state, s => {
         s.mouseState = {
           t: 'drag',
-          poly_index: action.which,
+          poly_index: action.poly_index,
           init_p_in_canvas: action.p_in_canvas,
           init_p_in_client: action.p_in_client,
           p_in_client: action.p_in_client
@@ -74,6 +74,11 @@ export function reduce(state: AppState, action: Action): AppState {
       return produce(state, s => {
         s.polyName = action.which;
         s.polys = newPolys;
+      });
+    }
+    case 'reset': {
+      return produce(state, s => {
+        s.polys[action.poly_index].scene_from_poly.rotate = new Quaternion();
       });
     }
   }

@@ -56,7 +56,7 @@ export function App(props: AppProps): JSX.Element {
         return <PolyhedronControl
           scale={40}
           dispatch={dispatch}
-          which={which}
+          poly_index={which}
           poly={polys[which]}
           mouseState={mouseState} />;
       })}

@@ -8,13 +8,14 @@ export type Action =
   | { t: 'toggleAnimation' }
   | {
     t: 'mouseDown',
-    which: number, // polyhedron 1 or 2
+    poly_index: number,
     p_in_client: Point,
     p_in_canvas: Point
   }
   | { t: 'mouseUp' }
   | { t: 'mouseMove', p_in_client: Point }
   | { t: 'selectPoly', which: PolyName }
+  | { t: 'reset', poly_index: number }
   ;
 
 export type Dispatch = (action: Action) => void;

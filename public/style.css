@@ -1,3 +1,10 @@
 body {
   background-color: #def;
 }
+
+.polyhedron-control-container {
+  width: 400px;
+
+  display: inline-block;
+  overflow: hidden;
+}
