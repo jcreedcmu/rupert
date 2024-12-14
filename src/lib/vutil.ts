@@ -83,3 +83,7 @@ export function vunit(v: Point): Point {
 export function vdiag(x: number): Point {
   return { x: x, y: x };
 }
+
+export function xprod(a: Point, b: Point): number {
+  return a.x * b.y - a.y * b.x;
+}
