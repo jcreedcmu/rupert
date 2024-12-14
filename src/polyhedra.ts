@@ -2,12 +2,25 @@
 
 import { SE3 } from "./lib/se3";
 import { Point3 } from "./lib/types";
-import { LocatedPolyhedron, Polyhedron } from "./state";
+import { LocatedPolyhedron, PolyName, Polyhedron } from "./state";
 import qh, { isPointInsideHull } from 'quickhull3d';
 
 function cbrt(x: number): number {
   return Math.pow(x, 1 / 3);
 }
+
+export function cube(): Polyhedron {
+  const vertices: Point3[] = [];
+  [-1, 1].map(x => {
+    [-1, 1].map(y => {
+      [-1, 1].map(z => {
+        vertices.push([x, y, z]);
+      });
+    });
+  });
+  return vertices;
+}
+
 export function snubCube(): Polyhedron {
   const tribonacci = (1.0 + cbrt(19 + 3 * Math.sqrt(33)) + cbrt(19 - 3 * Math.sqrt(33))) / 3;
 
@@ -46,5 +59,12 @@ export function mkLocatedPolyhedron(pts_in_poly: Polyhedron, scene_from_poly: SE
     pts_in_poly,
     scene_from_poly,
     faces: pts_in_poly.length > 0 ? qh(pts_in_poly) : [],
+  }
+}
+
+export function getPoly(which: PolyName): Polyhedron {
+  switch (which) {
+    case 'cube': return cube();
+    case 'snub cube': return snubCube();
   }
 }

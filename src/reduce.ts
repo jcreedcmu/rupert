@@ -1,8 +1,9 @@
 import { produce } from 'immer';
-import { AppState } from './state';
+import { AppState, LocatedPolyhedron } from './state';
 import { Action } from './action';
 import { Quaternion } from 'quaternion';
 import { vadd, vequal, vsnorm, vsub, vunit } from './lib/vutil';
+import { getPoly, mkLocatedPolyhedron } from './polyhedra';
 
 export function reduce(state: AppState, action: Action): AppState {
   switch (action.t) {
@@ -64,6 +65,16 @@ export function reduce(state: AppState, action: Action): AppState {
       }
       else
         return state;
+    }
+    case 'selectPoly': {
+      const newPoints = getPoly(action.which);
+      const newPolys: LocatedPolyhedron[] = state.polys.map(oldPoly => {
+        return mkLocatedPolyhedron(newPoints, oldPoly.scene_from_poly);
+      });
+      return produce(state, s => {
+        s.polyName = action.which;
+        s.polys = newPolys;
+      });
     }
   }
 }

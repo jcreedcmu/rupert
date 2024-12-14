@@ -5,7 +5,7 @@ import { PolyhedronControl } from './polyhedron-control';
 import { extractEffects } from './lib/extract-effects';
 import { useEffectfulReducer } from './lib/use-effectful-reducer';
 import { reduce } from './reduce';
-import { mkState, polyNames } from './state';
+import { PolyName, mkState, polyNames } from './state';
 import { Quaternion } from 'quaternion';
 import { PolyhedronComparator } from './polyhedron-comparator';
 
@@ -46,7 +46,8 @@ export function App(props: AppProps): JSX.Element {
   });
   return <>
     <center>
-      <select value={state.polyName}>
+      <select value={state.polyName}
+        onChange={(e) => { dispatch({ t: 'selectPoly', which: e.currentTarget.value as PolyName }) }}>
         {options}
 
       </select></center>

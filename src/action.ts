@@ -1,5 +1,6 @@
 import { Quaternion } from "quaternion";
 import { Point } from "./lib/types";
+import { PolyName } from "./state";
 
 export type Action =
   | { t: 'increment' }
@@ -13,6 +14,7 @@ export type Action =
   }
   | { t: 'mouseUp' }
   | { t: 'mouseMove', p_in_client: Point }
+  | { t: 'selectPoly', which: PolyName }
   ;
 
 export type Dispatch = (action: Action) => void;

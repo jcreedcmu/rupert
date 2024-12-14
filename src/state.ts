@@ -33,7 +33,7 @@ export type Polyhedron = Point3[];
 
 export type LocatedPolyhedron = {
   pts_in_poly: Polyhedron,
-  faces: number[][], // each face is a list of indices into pts_in_poly
+  faces: number[][], // derived from pts_in_poly; each face is a list of indices into pts_in_poly
   scene_from_poly: SE3,
 }
 
