@@ -11,21 +11,24 @@ export type CanvasProps = {
   dispatch: Dispatch,
   poly: LocatedPolyhedron,
   mouseState: MouseState,
+  scale: number,
 }
 
-export type CanvasState = {
+export type RenderState = {
   poly: LocatedPolyhedron,
+  scale: number,
 }
 
-function render(ci: CanvasInfo, state: CanvasState): void {
+function render(ci: CanvasInfo, state: RenderState): void {
+  const { scale } = state;
   const { d, size } = ci;
   d.clearRect(0, 0, size.x, size.y);
 
 
   function canvas_from_scene(pt_in_scene: Point3): Point {
     return {
-      x: size.x / 2 + pt_in_scene[0] * 40,
-      y: size.y / 2 + pt_in_scene[1] * 40
+      x: size.x / 2 + pt_in_scene[0] * scale,
+      y: size.y / 2 + pt_in_scene[1] * scale,
     };
   }
 
@@ -60,12 +63,12 @@ function onLoad(ci: CanvasInfo): void {
 
 }
 
-export function PolyhedraCanvas(props: CanvasProps): JSX.Element {
-  const { dispatch } = props;
+export function PolyhedronControl(props: CanvasProps): JSX.Element {
+  const { dispatch, which } = props;
   const [cref, mc] = useCanvas(props, render, [props], onLoad);
 
   function mousedown(e: React.MouseEvent): void {
-    dispatch({ t: 'mouseDown', p_in_canvas: rrelpos(e), p_in_client: { x: e.clientX, y: e.clientY } });
+    dispatch({ t: 'mouseDown', which, p_in_canvas: rrelpos(e), p_in_client: { x: e.clientX, y: e.clientY } });
   }
 
   return <canvas onMouseDown={mousedown} style={{ width: 400, height: 400 }} ref={cref} />;

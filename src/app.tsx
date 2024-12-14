@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import { doEffect } from './effect';
-import { PolyhedraCanvas } from './polyhedra-canvas';
+import { PolyhedronControl } from './polyhedron-control';
 import { extractEffects } from './lib/extract-effects';
 import { useEffectfulReducer } from './lib/use-effectful-reducer';
 import { reduce } from './reduce';
 import { mkState } from './state';
 import { Quaternion } from 'quaternion';
+import { PolyhedronComparator } from './polyhedron-comparator';
 
 export type AppProps = {
   color: string,
@@ -14,7 +15,7 @@ export type AppProps = {
 
 export function App(props: AppProps): JSX.Element {
   const [state, dispatch] = useEffectfulReducer(mkState(), extractEffects(reduce), doEffect);
-  const { counter, poly1, poly2, isAnimating, mouseState } = state;
+  const { counter, polys, isAnimating, mouseState } = state;
 
   function mouseup(e: MouseEvent) {
     dispatch({ t: 'mouseUp' });
@@ -42,11 +43,16 @@ export function App(props: AppProps): JSX.Element {
 
   return <>
     <center>
-      <PolyhedraCanvas dispatch={dispatch} which={1} poly={poly1} mouseState={mouseState} />
+      {[0, 1].map(which => {
+        return <PolyhedronControl
+          scale={40}
+          dispatch={dispatch}
+          which={which}
+          poly={polys[which]}
+          mouseState={mouseState} />;
+      })}
     </center>
-    <center>
-      <PolyhedraCanvas dispatch={dispatch} which={2} poly={poly2} mouseState={mouseState} />
-    </center>
+    <center><PolyhedronComparator polys={polys} scale={80} /></center>
   </>;
 }
 

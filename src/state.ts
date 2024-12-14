@@ -8,6 +8,7 @@ export type MouseState =
   | { t: 'up' }
   | {
     t: 'drag',
+    poly_index: number,
     init_p_in_canvas: Point,
     init_p_in_client: Point,
     p_in_client: Point,
@@ -18,8 +19,7 @@ export type AppState = {
   counter: number,
   effects: Effect[],
   debugStr: string,
-  poly1: LocatedPolyhedron,
-  poly2: LocatedPolyhedron,
+  polys: LocatedPolyhedron[],
   isAnimating: boolean,
   mouseState: MouseState,
 }
@@ -43,8 +43,7 @@ export function mkState(): AppState {
   );
   return {
     counter: 0, effects: [], debugStr: '',
-    poly1,
-    poly2,
+    polys: [poly1, poly2],
     isAnimating: true,
     mouseState: { t: 'up' },
   };

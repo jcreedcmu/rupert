@@ -22,18 +22,11 @@ export function reduce(state: AppState, action: Action): AppState {
         //        s.debugStr = `clicked at (${x}, ${y})`;
       });
     }
-    case 'rotatePoly1': {
-      const new_rotate = new Quaternion(state.poly1.scene_from_poly.rotate).mul(action.q);
-      return produce(state, s => {
-        s.counter += 1;
-        s.poly1.scene_from_poly.rotate = new_rotate;
-      });
-
-    }
     case 'mouseDown': {
       return produce(state, s => {
         s.mouseState = {
           t: 'drag',
+          poly_index: action.which,
           init_p_in_canvas: action.p_in_canvas,
           init_p_in_client: action.p_in_client,
           p_in_client: action.p_in_client
@@ -47,7 +40,7 @@ export function reduce(state: AppState, action: Action): AppState {
     }
     case 'mouseMove': {
       if (state.mouseState.t == 'drag') {
-        const { init_p_in_canvas, init_p_in_client, p_in_client } = state.mouseState;
+        const { poly_index, init_p_in_canvas, init_p_in_client, p_in_client } = state.mouseState;
 
         const motion = vsub(p_in_client, action.p_in_client);
         // console.log('motion:', motion);
@@ -57,15 +50,16 @@ export function reduce(state: AppState, action: Action): AppState {
         });
 
         if (vequal(motion, { x: 0, y: 0 })) return state;
+
         const nmotion = vunit(motion);
         const theta = vsnorm(motion) * 0.015;
         const c = Math.cos(theta / 2);
         const s = Math.sin(theta / 2);
         const extraRot = new Quaternion(c, -s * nmotion.y, s * nmotion.x, 0);
-        const newRot = extraRot.mul(new Quaternion(state.poly1.scene_from_poly.rotate));
+        const newRot = extraRot.mul(new Quaternion(state.polys[poly_index].scene_from_poly.rotate));
         return produce(state, s => {
           s.mouseState = newMouseState;
-          s.poly1.scene_from_poly.rotate = newRot;
+          s.polys[poly_index].scene_from_poly.rotate = newRot;
         });
       }
       else
