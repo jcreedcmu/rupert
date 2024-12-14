@@ -16,10 +16,36 @@ export function App(props: AppProps): JSX.Element {
   const [state, dispatch] = useEffectfulReducer(mkState(), extractEffects(reduce), doEffect);
   const { counter, poly1, poly2, isAnimating, mouseState } = state;
 
+  function mouseup(e: MouseEvent) {
+    dispatch({ t: 'mouseUp' });
+  }
+
+  function mousemove(e: MouseEvent): void {
+    dispatch({ t: 'mouseMove', p_in_client: { x: e.clientX, y: e.clientY } });
+  }
+
+  React.useEffect(() => {
+    document.addEventListener('mouseup', mouseup);
+    return () => {
+      document.removeEventListener('mouseup', mouseup);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (state.mouseState.t == 'drag') {
+      document.addEventListener('mousemove', mousemove);
+      return () => {
+        document.removeEventListener('mousemove', mousemove);
+      };
+    }
+  }, [state.mouseState]);
 
   return <>
     <center>
-      <PolyhedraCanvas dispatch={dispatch} poly1={poly1} poly2={poly2} mouseState={mouseState} />
+      <PolyhedraCanvas dispatch={dispatch} which={1} poly={poly1} mouseState={mouseState} />
+    </center>
+    <center>
+      <PolyhedraCanvas dispatch={dispatch} which={2} poly={poly2} mouseState={mouseState} />
     </center>
   </>;
 }

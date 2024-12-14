@@ -38,8 +38,8 @@ export function mkState(): AppState {
     mkSE3(new Quaternion(), [0, 0, 0]),
   );
   const poly2: LocatedPolyhedron = mkLocatedPolyhedron(
-    [],
-    mkSE3(new Quaternion(0, 0, 0, 1), [0, 0, 0]),
+    snubCube(),
+    mkSE3(new Quaternion(), [0, 0, 0]),
   );
   return {
     counter: 0, effects: [], debugStr: '',

@@ -7,15 +7,14 @@ import { Point, Point3 } from './lib/types';
 import { apply } from './lib/se3';
 
 export type CanvasProps = {
+  which: number,
   dispatch: Dispatch,
-  poly1: LocatedPolyhedron,
-  poly2: LocatedPolyhedron,
+  poly: LocatedPolyhedron,
   mouseState: MouseState,
 }
 
 export type CanvasState = {
-  poly1: LocatedPolyhedron,
-  poly2: LocatedPolyhedron,
+  poly: LocatedPolyhedron,
 }
 
 function render(ci: CanvasInfo, state: CanvasState): void {
@@ -30,7 +29,7 @@ function render(ci: CanvasInfo, state: CanvasState): void {
     };
   }
 
-  const { pts_in_poly, scene_from_poly, faces } = state.poly1;
+  const { pts_in_poly, scene_from_poly, faces } = state.poly;
   const pts_in_canvas = pts_in_poly.map(pt_in_poly => {
     return canvas_from_scene(apply(scene_from_poly, pt_in_poly));
   });
@@ -65,36 +64,9 @@ export function PolyhedraCanvas(props: CanvasProps): JSX.Element {
   const { dispatch } = props;
   const [cref, mc] = useCanvas(props, render, [props], onLoad);
 
-  function mouseup(e: MouseEvent) {
-    dispatch({ t: 'mouseUp' });
-  }
-
-  function mousemove(e: MouseEvent): void {
-    dispatch({ t: 'mouseMove', p_in_client: { x: e.clientX, y: e.clientY } });
-  }
-
   function mousedown(e: React.MouseEvent): void {
     dispatch({ t: 'mouseDown', p_in_canvas: rrelpos(e), p_in_client: { x: e.clientX, y: e.clientY } });
   }
-
-  React.useEffect(() => {
-    document.addEventListener('mouseup', mouseup);
-    return () => {
-      document.removeEventListener('mouseup', mouseup);
-    };
-  }, []);
-
-  React.useEffect(() => {
-    if (props.mouseState.t == 'drag') {
-      document.addEventListener('mousemove', mousemove);
-      return () => {
-        document.removeEventListener('mousemove', mousemove);
-      };
-    }
-  }, [props.mouseState]);
-
-
-
 
   return <canvas onMouseDown={mousedown} style={{ width: 400, height: 400 }} ref={cref} />;
 }
