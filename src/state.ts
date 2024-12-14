@@ -15,10 +15,15 @@ export type MouseState =
   }
   ;
 
+export const polyNames = ['cube', 'snub cube'] as const;
+export type PolyName = typeof polyNames[number];
+
+
 export type AppState = {
   counter: number,
   effects: Effect[],
   debugStr: string,
+  polyName: PolyName
   polys: LocatedPolyhedron[],
   isAnimating: boolean,
   mouseState: MouseState,
@@ -42,6 +47,7 @@ export function mkState(): AppState {
     mkSE3(new Quaternion(), [0, 0, 0]),
   );
   return {
+    polyName: 'snub cube',
     counter: 0, effects: [], debugStr: '',
     polys: [poly1, poly2],
     isAnimating: true,

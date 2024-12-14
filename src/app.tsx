@@ -5,7 +5,7 @@ import { PolyhedronControl } from './polyhedron-control';
 import { extractEffects } from './lib/extract-effects';
 import { useEffectfulReducer } from './lib/use-effectful-reducer';
 import { reduce } from './reduce';
-import { mkState } from './state';
+import { mkState, polyNames } from './state';
 import { Quaternion } from 'quaternion';
 import { PolyhedronComparator } from './polyhedron-comparator';
 
@@ -41,7 +41,15 @@ export function App(props: AppProps): JSX.Element {
     }
   }, [state.mouseState]);
 
+  const options = polyNames.map(polyName => {
+    return <option value={polyName}>{polyName.replace(/\b./g, x => x.toUpperCase())}</option>;
+  });
   return <>
+    <center>
+      <select value={state.polyName}>
+        {options}
+
+      </select></center>
     <center>
       {[0, 1].map(which => {
         return <PolyhedronControl
