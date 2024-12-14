@@ -14,22 +14,12 @@ export type AppProps = {
 
 export function App(props: AppProps): JSX.Element {
   const [state, dispatch] = useEffectfulReducer(mkState(), extractEffects(reduce), doEffect);
-  const { counter, poly1, poly2, isAnimating } = state;
+  const { counter, poly1, poly2, isAnimating, mouseState } = state;
 
-  React.useEffect(() => {
-
-    if (isAnimating) {
-      const x = setInterval(() => {
-        dispatch({ t: 'rotatePoly1', q: new Quaternion(Math.sqrt(9994 / 10000), Math.sqrt(1 / 10000), Math.sqrt(5 / 10000), 0) });
-
-      }, 50);
-      return () => { clearInterval(x); }
-    }
-  }, [isAnimating]);
 
   return <>
     <center>
-      <PolyhedraCanvas dispatch={dispatch} poly1={poly1} poly2={poly2} />
+      <PolyhedraCanvas dispatch={dispatch} poly1={poly1} poly2={poly2} mouseState={mouseState} />
     </center>
   </>;
 }

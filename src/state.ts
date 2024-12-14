@@ -1,8 +1,18 @@
 import { Quaternion } from "quaternion";
 import { Effect } from "./effect";
 import { SE3, mkSE3 } from "./lib/se3";
-import { Point3 } from "./lib/types";
+import { Point, Point3 } from "./lib/types";
 import { mkLocatedPolyhedron, snubCube } from "./polyhedra";
+
+export type MouseState =
+  | { t: 'up' }
+  | {
+    t: 'drag',
+    init_p_in_canvas: Point,
+    init_p_in_client: Point,
+    p_in_client: Point,
+  }
+  ;
 
 export type AppState = {
   counter: number,
@@ -11,6 +21,7 @@ export type AppState = {
   poly1: LocatedPolyhedron,
   poly2: LocatedPolyhedron,
   isAnimating: boolean,
+  mouseState: MouseState,
 }
 
 export type Polyhedron = Point3[];
@@ -35,5 +46,6 @@ export function mkState(): AppState {
     poly1,
     poly2,
     isAnimating: true,
+    mouseState: { t: 'up' },
   };
 }
