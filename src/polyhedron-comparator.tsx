@@ -52,7 +52,8 @@ function render(ci: CanvasInfo, state: RenderState): void {
     };
   }
 
-  function draw_hull(hull: Point[], error_k?: (point_in_canvas: Point) => boolean) {
+  function draw_hull(hull: Point[], error_k?: (point_in_canvas: Point) => boolean): boolean {
+    let allGood = true;
     pathPoly(d, hull);
     d.stroke();
     hull.forEach(pt_in_canvas => {
@@ -62,6 +63,7 @@ function render(ci: CanvasInfo, state: RenderState): void {
       if (error_k != undefined) {
         if (error_k(pt_in_canvas)) {
           d.fillStyle = "red";
+          allGood = false;
         }
         else {
           d.fillStyle = "#070";
@@ -71,6 +73,7 @@ function render(ci: CanvasInfo, state: RenderState): void {
         d.fillStyle = "black";
       d.fill();
     });
+    return allGood;
   }
 
   function hull_in_canvas_from(poly: LocatedPolyhedron): Point[] {
@@ -83,7 +86,25 @@ function render(ci: CanvasInfo, state: RenderState): void {
 
   const hulls_in_canvas = state.polys.map(hull_in_canvas_from);
   draw_hull(hulls_in_canvas[0]);
-  draw_hull(hulls_in_canvas[1], x => !pointInConvexPoly(x, hulls_in_canvas[0]));
+  const good = draw_hull(hulls_in_canvas[1], x => !pointInConvexPoly(x, hulls_in_canvas[0]));
+  if (good) {
+    d.save();
+    d.fillStyle = 'green';
+    d.globalAlpha = 0.5;
+    d.translate(size.x / 2, size.y / 2);
+    d.scale(1.5, 1.5);
+    d.translate(-5, -10);
+    d.beginPath();
+    d.moveTo(-31.193682, 19.854080);
+    d.lineTo(-21.314341, 11.373345);
+    d.bezierCurveTo(-21.314341, 11.373345, -10.004945, 30.844022, -4.901021, 34.080110);
+    d.bezierCurveTo(7.120989, 22.708193, 27.077653, -17.146172, 27.710916, -25.198847);
+    d.bezierCurveTo(34.584755, -19.408788, 43.203891, -22.511115, 43.203891, -22.511115);
+    d.bezierCurveTo(43.203891, -22.511115, 21.514133, 27.510487, -3.860807, 50.852051);
+    d.bezierCurveTo(-13.058804, 43.472196, -27.367053, 26.841403, -31.193682, 19.854080);
+    d.fill();
+    d.restore();
+  }
 }
 
 
