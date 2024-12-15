@@ -2,6 +2,10 @@ import { Quaternion } from "quaternion";
 import { Point } from "./lib/types";
 import { PolyName } from "./state";
 
+export type Modifiers = {
+  shift: boolean,
+}
+
 export type Action =
   | { t: 'increment' }
   | { t: 'side-effect' }
@@ -10,7 +14,8 @@ export type Action =
     t: 'mouseDown',
     poly_index: number,
     p_in_client: Point,
-    p_in_canvas: Point
+    p_in_canvas: Point,
+    modifiers: Modifiers,
   }
   | { t: 'mouseUp' }
   | { t: 'mouseMove', p_in_client: Point }

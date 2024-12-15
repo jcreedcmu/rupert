@@ -7,7 +7,14 @@ import { mkLocatedPolyhedron, snubCube } from "./polyhedra";
 export type MouseState =
   | { t: 'up' }
   | {
-    t: 'drag',
+    t: 'trackball',
+    poly_index: number,
+    init_p_in_canvas: Point,
+    init_p_in_client: Point,
+    p_in_client: Point,
+  }
+  | {
+    t: 'pan',
     poly_index: number,
     init_p_in_canvas: Point,
     init_p_in_client: Point,

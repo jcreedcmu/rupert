@@ -68,7 +68,11 @@ export function PolyhedronControl(props: CanvasProps): JSX.Element {
   const [cref, mc] = useCanvas(props, render, [props], onLoad);
 
   function mousedown(e: React.MouseEvent): void {
-    dispatch({ t: 'mouseDown', poly_index, p_in_canvas: rrelpos(e), p_in_client: { x: e.clientX, y: e.clientY } });
+    dispatch({
+      t: 'mouseDown', poly_index, p_in_canvas: rrelpos(e),
+      p_in_client: { x: e.clientX, y: e.clientY },
+      modifiers: { shift: e.shiftKey },
+    });
   }
 
   const qv = props.poly.scene_from_poly.rotate.toVector();

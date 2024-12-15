@@ -5,13 +5,21 @@ import { PolyhedronControl } from './polyhedron-control';
 import { extractEffects } from './lib/extract-effects';
 import { useEffectfulReducer } from './lib/use-effectful-reducer';
 import { reduce } from './reduce';
-import { PolyName, mkState, polyNames } from './state';
+import { MouseState, PolyName, mkState, polyNames } from './state';
 import { Quaternion } from 'quaternion';
 import { PolyhedronComparator } from './polyhedron-comparator';
 
 export type AppProps = {
   color: string,
 };
+
+function isDraggingState(ms: MouseState): boolean {
+  switch (ms.t) {
+    case 'up': return false;
+    case 'trackball': return true;
+    case 'pan': return true;
+  }
+}
 
 export function App(props: AppProps): JSX.Element {
   const [state, dispatch] = useEffectfulReducer(mkState(), extractEffects(reduce), doEffect);
@@ -33,7 +41,7 @@ export function App(props: AppProps): JSX.Element {
   }, []);
 
   React.useEffect(() => {
-    if (state.mouseState.t == 'drag') {
+    if (isDraggingState(state.mouseState)) {
       document.addEventListener('mousemove', mousemove);
       return () => {
         document.removeEventListener('mousemove', mousemove);

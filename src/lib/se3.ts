@@ -12,6 +12,11 @@ export function mkSE3(rotate: Quaternion, translate: Point3): SE3 {
 }
 
 export function apply(se3: SE3, x: Point3): Point3 {
-  // XXX wrong, doesn't include translation
-  return se3.rotate.rotateVector(x);
+  return v3add(se3.rotate.rotateVector(x), se3.translate);
+}
+
+export const dimensions = [0, 1, 2];
+
+export function v3add(a: Point3, b: Point3): Point3 {
+  return dimensions.map(d => a[d] + b[d]) as Point3;
 }
