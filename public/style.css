@@ -8,3 +8,12 @@ body {
   display: inline-block;
   overflow: hidden;
 }
+
+.transform {
+  background-color: white;
+  font-size: 9px;
+  overflow: hidden;
+  height: 60px;
+  width: 200px;
+  word-break: break-all;
+}

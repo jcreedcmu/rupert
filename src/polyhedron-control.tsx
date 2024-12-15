@@ -75,8 +75,9 @@ export function PolyhedronControl(props: CanvasProps): JSX.Element {
     });
   }
 
-  const qv = props.poly.scene_from_poly.rotate.toVector();
-  const quaternionText = <>{qv[0]}<br />{qv[1]}<br />{qv[2]}<br />{qv[3]}</>;
+  const rv = props.poly.scene_from_poly.rotate.toVector();
+  const tv = props.poly.scene_from_poly.translate;
+  const quaternionText = <div className="transform">{JSON.stringify({ rotation: rv, translation: [tv[0], tv[1]] })}</div>;
   return <div className="polyhedron-control-container">
     <canvas onMouseDown={mousedown} style={{ width: 400, height: 400 }} ref={cref} />
 
