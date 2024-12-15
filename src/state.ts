@@ -22,15 +22,13 @@ export type MouseState =
   }
   ;
 
-export const polyNames = ['cube', 'snub cube'] as const;
-export type PolyName = typeof polyNames[number];
 
 
 export type AppState = {
   counter: number,
   effects: Effect[],
   debugStr: string,
-  polyName: PolyName
+  polyName: string,
   polys: LocatedPolyhedron[],
   isAnimating: boolean,
   mouseState: MouseState,

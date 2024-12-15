@@ -1,6 +1,5 @@
 import { Quaternion } from "quaternion";
 import { Point } from "./lib/types";
-import { PolyName } from "./state";
 
 export type Modifiers = {
   shift: boolean,
@@ -19,7 +18,7 @@ export type Action =
   }
   | { t: 'mouseUp' }
   | { t: 'mouseMove', p_in_client: Point }
-  | { t: 'selectPoly', which: PolyName }
+  | { t: 'selectPoly', which: string }
   | { t: 'reset', poly_index: number }
   ;
 

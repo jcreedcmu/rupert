@@ -2,7 +2,8 @@
 
 import { SE3 } from "./lib/se3";
 import { Point3 } from "./lib/types";
-import { LocatedPolyhedron, PolyName, Polyhedron } from "./state";
+import { rawPolys } from "./raw-poly";
+import { LocatedPolyhedron, Polyhedron } from "./state";
 import qh, { isPointInsideHull } from 'quickhull3d';
 
 function cbrt(x: number): number {
@@ -62,9 +63,10 @@ export function mkLocatedPolyhedron(pts_in_poly: Polyhedron, scene_from_poly: SE
   }
 }
 
-export function getPoly(which: PolyName): Polyhedron {
-  switch (which) {
-    case 'cube': return cube();
-    case 'snub cube': return snubCube();
+export function getPoly(which: string): Polyhedron {
+  const rawPoly = rawPolys.find(x => x.name == which);
+  if (rawPoly == undefined) {
+    throw new Error(`${which} not found`);
   }
+  return rawPoly.verts;
 }

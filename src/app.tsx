@@ -5,9 +5,10 @@ import { PolyhedronControl } from './polyhedron-control';
 import { extractEffects } from './lib/extract-effects';
 import { useEffectfulReducer } from './lib/use-effectful-reducer';
 import { reduce } from './reduce';
-import { MouseState, PolyName, mkState, polyNames } from './state';
+import { MouseState, mkState } from './state';
 import { Quaternion } from 'quaternion';
 import { PolyhedronComparator } from './polyhedron-comparator';
+import { rawPolys } from './raw-poly';
 
 export type AppProps = {
   color: string,
@@ -49,13 +50,13 @@ export function App(props: AppProps): JSX.Element {
     }
   }, [state.mouseState]);
 
-  const options = polyNames.map(polyName => {
+  const options = rawPolys.map(x => x.name).map(polyName => {
     return <option value={polyName}>{polyName.replace(/\b./g, x => x.toUpperCase())}</option>;
   });
   return <>
     <center>
       <select value={state.polyName}
-        onChange={(e) => { dispatch({ t: 'selectPoly', which: e.currentTarget.value as PolyName }) }}>
+        onChange={(e) => { dispatch({ t: 'selectPoly', which: e.currentTarget.value }) }}>
         {options}
 
       </select></center>
@@ -69,7 +70,7 @@ export function App(props: AppProps): JSX.Element {
           mouseState={mouseState} />;
       })}
     </center>
-    <center><PolyhedronComparator polys={polys} scale={80} /></center>
+    <center><PolyhedronComparator polys={polys} scale={60} /></center>
   </>;
 }
 
