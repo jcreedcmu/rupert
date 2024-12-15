@@ -5,7 +5,7 @@ import { Point, Point3 } from './lib/types';
 import { apply } from './lib/se3';
 import { pathCircle, pathPoly } from './lib/dutil';
 import { makeHull } from './convex-hull';
-import { vsub, xprod } from './lib/vutil';
+import { vsnorm, vsub, xprod } from './lib/vutil';
 
 export type PolyhedronComparatorProps = {
   polys: LocatedPolyhedron[],
@@ -40,10 +40,12 @@ export function PolyhedronComparator(props: PolyhedronComparatorProps): JSX.Elem
 }
 
 function render(ci: CanvasInfo, state: RenderState): void {
-  const { scale } = state;
+
+  const max_snorm = Math.max(...state.polys[0].pts_in_poly.map(x => x[0] * x[0] + x[1] * x[1] + x[2] * x[2]));
+
+  const scale = state.scale / Math.sqrt(max_snorm);
   const { d, size } = ci;
   d.clearRect(0, 0, size.x, size.y);
-
 
   function canvas_from_scene(pt_in_scene: Point3): Point {
     return {

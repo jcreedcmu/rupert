@@ -70,7 +70,7 @@ export function App(props: AppProps): JSX.Element {
           mouseState={mouseState} />;
       })}
     </center>
-    <center><PolyhedronComparator polys={polys} scale={60} /></center>
+    <center><PolyhedronComparator polys={polys} scale={140} /></center>
   </>;
 }
 
