@@ -31,9 +31,15 @@ make test  # run tests
 Compiling Tom7's Rupert Polyhedra
 ---------------------------------
 
-I found that I could download snapshots of just `cc-lib` and `rupert` from
-[the repo](https://sourceforge.net/p/tom7misc/svn/HEAD/tree/trunk/) and put them in the
-same directory, and then inside `rupert` I could run
+I did
+```shell
+git svn clone  https://svn.code.sf.net/p/tom7misc/svn/trunk --include-paths 'cc-lib|ruperts' -r 6176 tom7misc-svn
 ```
-g++  -O3 -march=native -m64 -Wall -Wno-format -Wno-unused-function -Wno-deprecated -Wno-sign-compare -I. -I../cc-lib -I../codec --std=c++20 -c polyhedra.cc -o polyhedra.o
+
+To extract [tom7's rupert repo](https://sourceforge.net/p/tom7misc/svn/HEAD/tree/trunk/) and put some more tweaks in https://github.com/jcreedcmu/tom7-rupert-slice . The file `src/raw-poly.ts` is generated from the stdout of doing
 ```
+cd ruperts
+make generate
+./generate
+```
+inside that repo.
