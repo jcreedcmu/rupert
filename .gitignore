@@ -3,3 +3,4 @@ public/bundle.js.map
 node_modules
 data.json
 out
+dist
