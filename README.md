@@ -1,7 +1,7 @@
 Rupert
 =======
 
-[![image](screenshot.png)](https://jcreedcmu.github.io/rupert/)
+[<img src="screenshot.png" width=25% height=25%>](https://jcreedcmu.github.io/rupert/)
 
 A typescript tool to interactively explore polyhedra that may or may not have the
 [rupert
