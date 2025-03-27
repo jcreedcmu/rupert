@@ -1,7 +1,9 @@
 Rupert
 =======
 
-A typescript tool to explore polyhedra that may or may not have the
+[![image](screenshot.png)](https://jcreedcmu.github.io/rupert/)
+
+A typescript tool to interactively explore polyhedra that may or may not have the
 [rupert
 property](https://en.wikipedia.org/wiki/Prince_Rupert%27s_cube).
 
