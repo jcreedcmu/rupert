@@ -5,8 +5,21 @@ A typescript tool to explore polyhedra that may or may not have the
 [rupert
 property](https://en.wikipedia.org/wiki/Prince_Rupert%27s_cube).
 
-Building
---------
+Demo
+----
+
+Live demo [available here](https://jcreedcmu.github.io/rupert/).
+
+Building Static Site
+--------------------
+
+```shell
+./scripts/prepare-deploy.sh
+```
+makes a directory `dist` containing all code.
+
+Building for Development
+------------------------
 
 Assuming you have nodejs installed,
 
@@ -16,8 +29,8 @@ $ make
 
 should spin up a local http server on port 8000.
 
-Development
------------
+Other Targets
+-------------
 
 Other make targets are:
 
