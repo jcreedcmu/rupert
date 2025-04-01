@@ -51,7 +51,7 @@ export function mkState(): AppState {
     mkSE3(new Quaternion(), [0, 0, 0]),
   );
   return {
-    polyName: 'cube',
+    polyName: rawPolys[0].name,
     counter: 0, effects: [], debugStr: '',
     polys: [poly1, poly2],
     isAnimating: true,
